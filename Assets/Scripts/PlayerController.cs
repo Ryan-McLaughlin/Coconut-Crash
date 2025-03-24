@@ -3,38 +3,24 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    
+    public InputAction MoveAction;
+    //public float playerSpeed = 0.0025f;
 
     void Start()
     {
+        //QualitySettings.vSyncCount = 0;
+        //Application.targetFrameRate = 10;
 
+        MoveAction.Enable();
     }
 
     void Update()
     {
-        float horizontal = 0.0f, vertical = 0.0f;
-        Vector2 position = transform.position;
+        Vector2 move = MoveAction.ReadValue<Vector2>();
+        Vector2 position = (Vector2)transform.position + move * 3f * Time.deltaTime;// playerSpeed;
+        
+        Debug.Log(move);
 
-        if(Keyboard.current.leftArrowKey.isPressed || Input.GetKey(KeyCode.A))
-        {
-            horizontal = -0.1f;
-        }
-        else if(Keyboard.current.rightArrowKey.isPressed || Input.GetKey(KeyCode.D))
-        {
-            horizontal = 0.1f;
-        }
-
-        if(Keyboard.current.upArrowKey.isPressed || Input.GetKey(KeyCode.W))
-        {
-            vertical = 0.1f;
-        }
-        else if(Keyboard.current.downArrowKey.isPressed || Input.GetKey(KeyCode.S))
-        {
-            vertical = -0.1f;
-        }
-
-        position.x = position.x + 0.1f * horizontal;
-        position.y = position.y + 0.1f * vertical;
         transform.position = position;
     }
 }
